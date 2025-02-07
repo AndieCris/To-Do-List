@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #34495E;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #939899; /* White background for the container */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid #000000;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #3a3a3a;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #task {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        #task:focus {
+            border-color: #c51111;
+        }
+
+        #addTask {
+            padding: 12px 25px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff7e5f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #addTask:hover {
+            background-color: #feb47b;
+            transform: scale(1.05);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            background-color: #e0e0e0;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            background-color: #d6f9d6;
+            color: #388e3c;
+        }
+
+        .deleteTask {
+            color: #e57373;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .deleteTask:hover {
+            color: #c62828;
+        }
+
+        /* Stats section */
+        .task-stats {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .task-stats p {
+            margin: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="task" placeholder="Add a new task..." />
+        <button id="addTask">Add Task</button>
+        <ul id="taskList"></ul>
+        <div class="task-stats">
+            <p>Total Tasks: <span id="totalTasks">0</span></p>
+            <p>Completed Tasks: <span id="completedTasks">0</span></p>
+            <p>Remaining Tasks: <span id="remainingTasks">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let totalTasks = 0;
+        let completedTasks = 0;
+
+        // Add task function
+        function addTask() {
+            const taskInput = document.getElementById("task");
+            const taskText = taskInput.value.trim();
+            if (taskText !== "") {
+                const taskList = document.getElementById("taskList");
+                const newTask = document.createElement("li");
+                newTask.innerHTML = taskText; // Fixed the template literal issue
+                newTask.addEventListener("click", () => toggleTaskCompletion(newTask));
+                taskList.appendChild(newTask);
+
+                totalTasks++;
+                document.getElementById("totalTasks").textContent = totalTasks;
+                updateRemainingTasks();
+
+                taskInput.value = "";
+            }
+        }
+
+        // Mark task as completed
+        function toggleTaskCompletion(task) {
+            if (task.classList.contains("completed")) {
+                task.classList.remove("completed");
+                completedTasks--;
+            } else {
+                task.classList.add("completed");
+                completedTasks++;
+            }
+
+            document.getElementById("completedTasks").textContent = completedTasks;
+            updateRemainingTasks();
+        }
+
+        // Update remaining tasks
+        function updateRemainingTasks() {
+            const remainingTasks = totalTasks - completedTasks;
+            document.getElementById("remainingTasks").textContent = remainingTasks;
+        }
+
+        // Event listeners
+        document.getElementById("addTask").addEventListener("click", addTask);
+        document.getElementById("task").addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+
+    </script>
+</body>
+</html>
