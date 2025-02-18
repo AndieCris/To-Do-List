@@ -16,6 +16,7 @@
             justify-content: center;        /* Center horizontally */
             align-items: center;            /* Center vertically */
             height: 100vh;                  /* Full viewport height */
+            position: relative;             /* Position relative to handle z-index */
         }
 
         /* Video background */
@@ -44,6 +45,7 @@
             text-align: center;
             transition: transform 0.3s;
             border: 1px solid #000000;
+            z-index: 1; /* Make sure the container is on top of the video */
         }
 
         .container:hover {
